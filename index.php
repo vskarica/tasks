@@ -2,7 +2,7 @@
     session_start();
     include_once "CircleClass.php";
     include_once "TriangleClass.php";
-    function valjanTrokut ($a,$b,$c){
+    function valjaneDuljineStranica ($a,$b,$c){
 		If($a>$b){
 			$max=$a;
 			$min=$b;
@@ -49,7 +49,26 @@
 		}
 		return 'Nemoguća visina trokuta!';
 	}
+	function pt($a,$b,$c,$v){
+		if(!valjaneDuljineStranica ($a,$b,$c)){	//ako dotične stranice ne čine trokut
+			return 'Neispravne duljine stranica';
+		} else {								//ako su duljine stranica ispravne
+			$max=max($a,$b,$c);	//Najdulja stranica (hipotenuza)
+			$pmaxv=$max*$v/2;	//Površina trokutaviz hipotenuze i pripadajuće visine
+			$pts=pts($a,$b,$c);	//Površina trokuta iz duljina stranica
+			if(round($pts,6)==round($pmaxv,6)){	//ako su površine iste (o jest, ako je visina ispravna za taj trokut)
+				return $max*$v/2;
+			} else {
+				return 'Neispravna visina na hipotenuzu';
+			}
+			
+		}
+		
+	}
 	function ot($a,$b,$c){
+		if(!valjaneDuljineStranica ($a,$b,$c)){	//ako dotične stranice ne čine trokut
+			return 'Neispravne duljine stranica';
+		}
 		return $a+$b+$c;
 	}
 ?>
@@ -87,8 +106,8 @@
             	if(is_numeric($_REQUEST['v']))$v=$_REQUEST['v']; else $v=0;
             	if($_REQUEST['radiov']=='a' or $_REQUEST['radiov']=='b' or $_REQUEST['radiov']=='c'){
             		$vx=$_REQUEST['radiov'];
-            		$ptsv=ptsv($a,$b,$c,$v,$vx);
-            		echo"$a,$b,$c,$v,$vx-main<br />";
+            		$pt=pt($a,$b,$c,$v);
+            		//echo"$a,$b,$c,$v,$vx-main<br />";
             		//echo pts($a,$b,$c) . '-<br />';
             		//echo ptv($$vx,$v) . '-<br />';
             		//echo ptsv($a,$b,$c,$v,$vx) . '-<br />';
@@ -97,7 +116,7 @@
             		$vx='x';
             		$v='nedefiniran';
             	}
-            	echo "<div>Trokut(a=$a, b=$b, c=$c, v<sub>$vx</sub>=$v)<br />Površina trokuta je: $ptsv<br />Opseg trokuta je: $ot</div><br /><br />";
+            	echo "<div>Trokut(a=$a, b=$b, c=$c, v<sub>$vx</sub>=$v)<br />Površina trokuta je: $pt<br />Opseg trokuta je: $ot</div><br /><br />";
 			}
         ?>
     	<form action="index.php" method="get">
