@@ -34,8 +34,7 @@
 					$pk='neizračunjiv';
 					$ok='neizračunjiv';
 				}
-            	$pi=pi();
-				echo "<div>Krug (r=$r)<br />Površina kruga je: $pk($pi)<br />Opseg kruga je: $ok</div><br /><br />";
+				echo "<div>Krug (r=$r)<br />Površina kruga je: $pk<br />Opseg kruga je: $ok</div><br /><br />";
 			}
             if(isset($_REQUEST['a'])){
             	if(is_numeric($_REQUEST['a']))$a=$_REQUEST['a']; else $a=0;
