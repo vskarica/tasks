@@ -6,12 +6,6 @@ class Triangle {
     private $v;
     private $area;
     private $circumference;
-    //private $aSet=0;
-    //private $bSet=0;
-    //private $cSet=0;
-
-    /*function __construct() {
-    }*/
     function __construct(float $a, float $b, float $c, float $v) {
         $this->valSet($a,$b,$c,$v);
     }
@@ -51,20 +45,8 @@ class Triangle {
 
 
     function __get(string $var){
-        if(!($var='a' or $var='b' or $var='c' or $var='v' or $var='area' or $var='circumference')) trigger_error("Object 'circle' has no such property.",E_USER_NOTICE);
+        if(!($var=='a' or $var=='b' or $var=='c' or $var=='v' or $var=='area' or $var=='circumference')) trigger_error("Object 'circle' has no such property.",E_USER_NOTICE);
         return $this->$var;
     }
-    /*function __set(string $var,float $val){
-        if(!($var='a' or $var='b' or $var='c' or $var='v')) trigger_error("Object 'circle' has no such propertie",E_USER_NOTICE);
-        if(!is_numeric($val)) trigger_error("Object 'circle' can receive onli numeric values",E_USER_NOTICE);
-        if($var='a')$aSet=1;
-        if($var='b')$bSet=1;
-        if($var='c')$cSet=1;
-        if($var='v')$vSet=1;
-        if($aSet+$bSet+$cSet=3){
-            if(!isSidesLenghtRight($this->a,$this->b,$this->c)) trigger_error("Object 'circle' recived imposibe combination of side lenghts",E_USER_NOTICE);
-        }
-        $this->$var=$val;
-    }*/
 }
 ?>

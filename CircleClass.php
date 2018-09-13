@@ -9,23 +9,22 @@ class Circle {
     }
     function valSet(float $r){                               //Sets up a circle.
         if($r<0) trigger_error("Object 'Circle' refuses negative values.",E_USER_NOTICE);
-        $area=$this->area ($r);                           //area
         $this->r=$r;                                      //asign all variables
-        $this->area=$area;
+        $this->area=$this->area ($r);
         $this->circumference=$this->circumference($r);
     }
 
-     private function area ($r){                            //Calculates area.
-        return pi()*$r^2;
+    private function area ($r){                            //Calculates area.
+        return pi()*$r*$r;
     }
 
-	private function circumference($r){               //Calculate circumference.
+	private function circumference($r){                     //Calculate circumference.
 		return 2*$r*pi();
 	}
 
 
     function __get(string $var){
-        if(!($var='r' or $var='area' or $var='circumference')) trigger_error("Object 'circle' has no such property.",E_USER_NOTICE);
+        if(!($var=='r' or $var=='area' or $var=='circumference')) trigger_error("Object 'circle' has no such property.",E_USER_NOTICE);
         return $this->$var;
     }
 
