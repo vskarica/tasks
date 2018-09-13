@@ -1,3 +1,3 @@
-#test project
+#My project
 Knowledge demonstration.
 Flipkod OOP task.

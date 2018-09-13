@@ -1,25 +1,9 @@
 <?php
     session_start();
-    include_once "CircleClass.php";
-    include_once "TriangleClass.php";
+	require_once('CircleClass.php');
+	require_once('TriangleClass.php');
     function valjaneDuljineStranica ($a,$b,$c){
-		If($a>$b){
-			$max=$a;
-			$min=$b;
-		} else
-		{
-			$max=$b;
-			$min=$a;
-		}
-		if($max<$c){
-			$mid=$max;
-			$max=$c;
-		}
-		if($min>$c){
-			$mid=$min;
-			$min=$c;
-		}
-		return ($max-$mid-$min<=0);
+		return ($a+$b>=$c and $b+$c>=$a and $a+$c>=$b);
 	}
     function pk($r){
     	$pi=pi();
@@ -31,7 +15,6 @@
     function pts($a,$b,$c){
 		$p=($a+$b+$c)/2;
 		$pts=sqrt($p*($p-$a)*($p-$b)*($p-$c));
-		echo"$a,$b,$c-pts<br />";
 		return $pts;
 	}
 	function ptv($a,$v){
@@ -88,9 +71,12 @@
 		<?php
             if(isset($_REQUEST['radius'])){
             	if(is_numeric($_REQUEST['radius'])){
-            		$r=$_REQUEST['radius'];
-            		$pk=pk($r);
-            		$ok=ok($r);
+					$r=$_REQUEST['radius'];
+					$circle= new Circle($r);
+            		//$pk=pk($r);
+            		//$ok=ok($r);
+            		$pk=$circle->__get('area');
+            		$ok=$circle->__get('circumference');
             		
 				} else {
 					$r='nedefiniran';
@@ -103,26 +89,22 @@
             	if(is_numeric($_REQUEST['a']))$a=$_REQUEST['a']; else $a=0;
             	if(is_numeric($_REQUEST['b']))$b=$_REQUEST['b']; else $b=0;
             	if(is_numeric($_REQUEST['c']))$c=$_REQUEST['c']; else $c=0;
-            	if(is_numeric($_REQUEST['v']))$v=$_REQUEST['v']; else $v=0;
-            	if($_REQUEST['radiov']=='a' or $_REQUEST['radiov']=='b' or $_REQUEST['radiov']=='c'){
-            		$vx=$_REQUEST['radiov'];
-            		$pt=pt($a,$b,$c,$v);
-            		//echo"$a,$b,$c,$v,$vx-main<br />";
-            		//echo pts($a,$b,$c) . '-<br />';
-            		//echo ptv($$vx,$v) . '-<br />';
-            		//echo ptsv($a,$b,$c,$v,$vx) . '-<br />';
-            		$ot=ot($a,$b,$c);
-				} else {
-            		$vx='x';
-            		$v='nedefiniran';
-            	}
-            	echo "<div>Trokut(a=$a, b=$b, c=$c, v<sub>$vx</sub>=$v)<br />Površina trokuta je: $pt<br />Opseg trokuta je: $ot</div><br /><br />";
+				if(is_numeric($_REQUEST['v']))$v=$_REQUEST['v']; else $v=0;
+				$trokut= new Triangle($a,$b,$c,$v);
+				//$pt=pt($a,$b,$c,$v);
+				$pt=$trokut->__get('area');
+				//echo"$a,$b,$c,$v,$vx-main<br />";
+				//echo pts($a,$b,$c) . '-<br />';
+				//echo ptv($$vx,$v) . '-<br />';
+				//echo ptsv($a,$b,$c,$v,$vx) . '-<br />';
+				//$ot=ot($a,$b,$c);
+				$ot=$trokut->__get('circumference');
+            	echo "<div>Trokut(a=$a, b=$b, c=$c, v<sub style='font-size: 70%;'>h</sub>=$v)<br />Površina trokuta je: $pt<br />Opseg trokuta je: $ot</div><br /><br />";
 			}
         ?>
     	<form action="index.php" method="get">
     		<label for="">Krug</label><br />
     		r: <input id="radius" name="radius" type="text" /><br />
-    		<label id="KrugOutput" for=""></label><br />
     		<input type="submit" />
     	</form>
     	<br /><br />
@@ -131,11 +113,7 @@
     		a:&nbsp <input id="a" name="a" type="text" /><br />
     		b:&nbsp <input id="b" name="b" type="text" /><br />
     		c:&nbsp <input id="c" name="c" type="text" /><br />
-    		v<sub>x</sub>: <input id="vx" name="v" type="text" /><br />
-    		<label id="KrugOutput" for=""></label><br />
-    		<label>v<sub>a</sub><input name="radiov" type="radio" value="a" checked /></label><br />
-    		<label>v<sub>b</sub><input name="radiov" type="radio" value="b" /></label><br />
-    		<label>v<sub>c</sub><input name="radiov" type="radio" value="c" /></label><br />
+    		v<sub>h</sub>: <input id="vx" name="v" type="text" /><br />
     		<input type="submit" />
     	</form>
 	</body>
